@@ -19,8 +19,8 @@ $(document).ready(function () {
     board = $('#board');
     inicio = $('#inicio');
     final = $('#fin');
-    nivel = 2;
-    etapa = 2;
+    nivel = 0;
+    etapa = 0;
     thumbnail = $('#thumbnail_img');
 
     $('#btnPlay').click(loadControls);
