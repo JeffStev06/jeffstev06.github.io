@@ -1,5 +1,6 @@
+
 // Array con dos dimensiones [nivel][puzzle]
-var niveles = [[1],[2,3],[4,5,6]], nivel = 0;
+var niveles = [[1], [2, 3], [4, 5, 6]], nivel = 0;
 
 var cols, rows, sizeX, sizeY;
 var width = 0, height = 0;
@@ -8,6 +9,7 @@ var inicio, final, board, tiempo, etapa, thumbnail, jugador;
 var lstPiezas = [], lstShuffle = [];
 var timer, sec = 0, totalJugado = 0;
 
+var creditNames = '';
 // Booleanas
 var showHint = false;
 var isPlaying = false;
@@ -17,8 +19,8 @@ $(document).ready(function () {
     board = $('#board');
     inicio = $('#inicio');
     final = $('#fin');
-    nivel = 0;
-    etapa = 0;
+    nivel = 2;
+    etapa = 2;
     thumbnail = $('#thumbnail_img');
 
     $('#btnPlay').click(loadControls);
@@ -35,20 +37,47 @@ $(document).ready(function () {
             }
         }
     });
+    $('#btnInfo').click(function () {
+        getCreditNames();
+        console.log(creditNames)
+        
+        setTimeout(function() {
+            var preCreditos = document.createElement('pre');
+            
+            preCreditos.appendChild(document.createTextNode(creditNames));
+    
+            var pre = document.createElement('pre');
+            //custom style.
+            pre.style.maxHeight = "350px";
+            pre.style.margin = "0";
+            pre.style.padding = "0";
+            //pre.style.whiteSpace = "pre-wrap";
+            pre.style.textAlign = "justify";
+            pre.appendChild(document.createTextNode($('#instru').text()));
+    
+            alertify.confirm("Instrucciones 🧩", pre, function () {
+    
+                alertify.alert('Créditos', preCreditos);
+                //alertify.alert('Alert Title', 'Alert Message!', function(){ alertify.success('Ok'); });
+            }, function () {
+                //alertify.error('Cerrar');
+            }).set({ labels: { ok: 'Créditos', cancel: 'Cerrar' }, padding: false });
+        }, 1000)
+
+    })
 
     loadVariables();
     //loadGame(niveles[etapa].nvl,niveles[etapa].pzl);
     $('#btnPlay').click(function () {
         if (sec == 0) {
             jugador = $('#name').val();
-            inicio.css('display','none');
-            final.css('display','none');
-            board.css('display','');
-            loadGame(nivel+1,niveles[nivel][etapa]);
+            inicio.css('display', 'none');
+            final.css('display', 'none');
+            board.css('display', '');
+            loadGame(nivel + 1, niveles[nivel][etapa]);
         }
-        
     });
-    
+
 });
 
 function loadControls() {
@@ -116,15 +145,14 @@ function loadGame(nvl, imgNum) {
     console.log('Puzzle nivel: ' + nvl + ', de ' + width + 'x' + height + '. FilasxColumnas: ' + rows + 'x' + cols + ' con piezas de tamaño ' + sizeX + 'x' + sizeY);
 
     board.css({
-        height: 4 + (sizeY*rows),
-        width: 4 + (sizeX*cols),
+        height: 4 + (sizeY * rows),
+        width: 4 + (sizeX * cols),
     });
-    //board.css('grid-template-columns', 'repeat(' + cols + ', 1fr)');
     // Hacer aperecer el Tablero
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
-            let imgHTML = `<div id="${i}${j}" style="background-position: -${sizeX * j}px -${sizeY * i}px ; background-image: url(img/puzzle1/pzl${imgNum}.jpg); background-size: ${width}px ${height}px;  width:${sizeX }px; height:${sizeY }px" class="pieza draggable droppable" />`;
+            let imgHTML = `<div id="${i}${j}" style="background-position: -${sizeX * j}px -${sizeY * i}px ; background-image: url(img/puzzle1/pzl${imgNum}.jpg); background-size: ${width}px ${height}px;  width:${sizeX}px; height:${sizeY}px" class="pieza draggable droppable" />`;
 
             let pieza = {
                 id: i + '' + j,
@@ -178,50 +206,48 @@ function shuffle(array) {
 }
 
 function dragNDrop() {
-    
     $('.draggable').draggable({
-        start: function(event, ui) {
+        start: function (event, ui) {
             let piezaMoviendo = $(this);
             piezaMoviendo.addClass('sobre')
         },
-        stop: function(event, ui) {
+        stop: function (event, ui) {
             let piezaMoviendo = $(this);
             piezaMoviendo.removeClass('sobre')
         }
     });
     $('.droppable').droppable({
-        drop: function(event,ui) {
+        drop: function (event, ui) {
             var piezaMovida = ui.draggable;
             var piezaAMover = $(this);
-            
+
             reordenarTablero(piezaMovida.attr('id'), piezaAMover.attr('id'))
 
             dibujarTablero(lstShuffle);
             verificacion(lstShuffle);
         }
     });
-
 }
 
 function reordenarTablero(id1, id2) {
 
     let pos = 0, pos1 = 0, pos2 = 0;
     let piezaTemp;
-    lstShuffle.forEach(function(val) {
+    lstShuffle.forEach(function (val) {
         if (val.id == id1) {
             pos1 = pos;
         }
         if (val.id == id2) {
             pos2 = pos;
         }
-        pos ++;
+        pos++;
         //console.log(val.id)
     })
 
     piezaTemp = lstShuffle[pos1];
     lstShuffle[pos1] = lstShuffle[pos2];
     lstShuffle[pos2] = piezaTemp
-    
+
 }
 
 function dibujarTablero(lista) {
@@ -243,52 +269,52 @@ function verificacion(lista) {
         i++;
     });
 
-    
+
     if (oks == lstShuffle.length) {
-    setTimeout(function() {
-        //let nivel;
-        // Pausar el tiempo y 
-        isPlaying = true;
-        loadControls();
-        
-        totalJugado = totalJugado + sec;
-        
-        etapa ++;
-        if (niveles[nivel][etapa] == undefined) {
-            nivel++;
-            etapa = 0;
-        }
-        lstPiezas = [];
-        lstShuffle = [];
-        board.html("");
-        if(niveles[nivel] != undefined) {
-            if (etapa == 0) {
-                alertify.alert('Bien hecho', 'Has completado el nivel '+nivel+'/3 en '+sec+' segundos', 
-                function(){ 
-                    loadGame(nivel+1,niveles[nivel][etapa])
-                });
-            } else {
-                alertify.alert('Listo', 'Acabas de completar la etapa '+etapa+' del nivel '+(nivel+1)+' en '+sec+' segundos', 
-                function(){ 
-                    loadGame(nivel+1,niveles[nivel][etapa])
-                });
-            }
-            sec = 0;
+        setTimeout(function () {
+            //let nivel;
+            // Pausar el tiempo y 
+            isPlaying = true;
             loadControls();
-        } else {
-            // LLAMAR A Nombre de INTEGRANTES
-            alertify.success('Finalizaste el juego');
-            fin();
-        }
+
+            totalJugado = totalJugado + sec;
+
+            etapa++;
+            if (niveles[nivel][etapa] == undefined) {
+                nivel++;
+                etapa = 0;
+            }
+            lstPiezas = [];
+            lstShuffle = [];
+            board.html("");
+            if (niveles[nivel] != undefined) {
+                if (etapa == 0) {
+                    alertify.alert('Bien hecho', 'Has completado el nivel ' + nivel + '/3 en ' + sec + ' segundos',
+                        function () {
+                            loadGame(nivel + 1, niveles[nivel][etapa])
+                        });
+                } else {
+                    alertify.alert('Listo', 'Acabas de completar la etapa ' + etapa + ' del nivel ' + (nivel + 1) + ' en ' + sec + ' segundos',
+                        function () {
+                            loadGame(nivel + 1, niveles[nivel][etapa])
+                        });
+                }
+                sec = 0;
+                loadControls();
+            } else {
+                // LLAMAR A Nombre de INTEGRANTES
+                alertify.success('Finalizaste el juego');
+                fin();
+            }
         }, 1000);
     }
 }
 
 function fin() {
-    board.css('display','none');
+    board.css('display', 'none');
     $('#thanks').html(`Gracias por jugar ${jugador}  🥳`);
     $('#score').html(`Tiempo jugado ${totalJugado} segundos`);
-    final.css('display','');
+    final.css('display', '');
     $('#nvl').html('-')
     $('#tmp').html(0 + 's');
     board.html("");
@@ -298,6 +324,6 @@ function fin() {
     etapa = 0;
     nivel = 0;
     totalJugado = 0;
-    sec = 0;    
+    sec = 0;
 
 }

@@ -11,8 +11,8 @@
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+    <script src="connection.js"></script>
     <script src="base.js"></script>
-    <script src="pieces.js"></script>
     <title>Puzzle</title>
 </head>
 <body>
@@ -42,11 +42,32 @@
                 <img src="img/hint.png" alt="" height="50px">
                 <span class="tiptext">Pista</span>
             </div>
+            <div id="btnInfo" class="tooltip top">
+                <img src="img/info.png" alt="" height="50px">
+                <span class="tiptext">Información</span>
+            </div>
         </div>
         <div class="thumbnail">
             <img id="thumbnail_img" src="" class="" alt="" style="display: none;">
         </div>
         <div class="game-box">
+            <div id="instru" style="display: none;">
+        Vemos que tienes dudas de como funciona este juego, o solo 
+        querías ver que hacía el botón que apretaste, de cualquier 
+        manera te comento. <br>
+        ⬢ A tu disposición cuentas con tres botónes con el primero 
+          podrás iniciar un juego o ponerle pausa cuando te encuentres 
+          en uno. <br>
+        ⬢ Con el segundo podrás hacer trampa y ver como debería ser 
+          la solución del nivel en el que te encuentres, pero tranquilo 
+          no te diremos nada si hechas un vistazo. <br>
+        ⬢ Y el último... Bueno ya deberías saberlo, abre este cuadro 
+          de diálogo en el que te encuentras. <br>
+        <br>
+        Suerte!
+
+                <h6 style="color: gray">Puedes ver información de los creadores aquí abajo.</h6>
+            </div>
             <div id="inicio">
                 <h1>Hola!, como te llamas?</h1>
                 <input id="name" type="text">

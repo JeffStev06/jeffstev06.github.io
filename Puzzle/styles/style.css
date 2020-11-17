@@ -32,7 +32,7 @@ html, body {
 .controls {
     position: fixed;
     bottom: 0;
-    right: calc(50% - 70px);
+    right: calc(50% - 105px);
     background-color: coral;
     display: flex;
     border-radius: 10px;
