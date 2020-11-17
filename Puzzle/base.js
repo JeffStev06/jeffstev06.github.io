@@ -197,7 +197,7 @@ function dragNDrop() {
             reordenarTablero(piezaMovida.attr('id'), piezaAMover.attr('id'))
 
             dibujarTablero(lstShuffle);
-            verificacion();
+            verificacion(lstShuffle);
         }
     });
 
@@ -233,9 +233,9 @@ function dibujarTablero(lista) {
 
 }
 
-function verificacion() {
+function verificacion(lista) {
     let i = 0, oks = 0;
-    lstShuffle.forEach(function (val) {
+    lista.forEach(function (val) {
         if (lstPiezas[i].id == val.id) {
             //$('#' + val.id).addClass('ok');
             oks++;
