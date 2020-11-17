@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="libs/jquery.js"></script>
+    <link rel="stylesheet" href="libs/jquery-ui.css">
+    <script src="libs/jquery-ui.js"></script>
+    <link rel="stylesheet" href="styles/style.css">
+
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+    <script src="base.js"></script>
+    <script src="pieces.js"></script>
+    <title>Puzzle</title>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="menu">
+            <h2>PUZZLE</h2>
+            <div class="">
+                Tiempo
+                <span id="tmp">0s</span>
+            </div>
+            <div class="">
+                Nivel
+                <span id="nvl">-</span>
+            </div>
+        </div>
+        <div class="controls">
+            <div id="btnPlay" class="tooltip top">
+                <img src="img/play.png" alt="" height="50px">
+                <span class="tiptext">Play</span>
+            </div>
+            <div id="btnPause" class="tooltip top" style="display: none;">
+                <img src="img/pause.png" alt="" height="50px">
+                <span class="tiptext">Pausa</span>
+            </div>
+            <div id="btnHint" class="tooltip top">
+                <img src="img/hint.png" alt="" height="50px">
+                <span class="tiptext">Pista</span>
+            </div>
+        </div>
+        <div class="thumbnail">
+            <img id="thumbnail_img" src="" class="" alt="" style="display: none;">
+        </div>
+        <div class="game-box">
+            <div id="inicio">
+                <h1>Hola!, como te llamas?</h1>
+                <input id="name" type="text">
+                <h6>Para empezar da clic en Play</h6>
+            </div>
+            <div id="fin" style="display: none;">
+                <h1>🎉 Felicidades 🎉</h1>
+                <br>
+                <h3 id="thanks"></h3>
+                <h5 id="score"></h5>
+                <br>
+                <h6 style="color:gray">Para volver a empezar da clic en Play</h6>
+            </div>
+            <div id="board" style="display: none;">
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

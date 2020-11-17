@@ -1,14 +1,22 @@
 const express = require('express');
 const mysql = require('mysql');
-
 const bodyParser = require('body-parser');
 
-const PORT = process.env.PORT || 3050
-
+const PORT = 3050
 
 const app = express();
 
+// Start api with "node ."
+
 app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-COntrol-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -17,7 +25,7 @@ const connection = mysql.createConnection({
     database: 'node_api_login'
 })
 
-app.get('/test', (req, res) => {
+app.get('/list', (req, res) => {
     const sql = "SELECT * FROM usuarios";
 
     connection.query(sql, (error, results) => {
@@ -61,7 +69,6 @@ app.post('/login', (req, res) => {
         }
     })
 })
-
 
 connection.connect(error => {
     if (error) throw error;
